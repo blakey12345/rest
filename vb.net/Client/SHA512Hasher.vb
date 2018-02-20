@@ -1,6 +1,9 @@
 ﻿Imports System.Security.Cryptography
 Imports System.Text
 
+' Graciously borrowed / stolen from :
+' https://stackoverflow.com/questions/4779011/vb-net-console-app-to-return-sha512-hash
+
 Public Class SHA512Hasher
     Private Shared ReadOnly encoding As Encoding = Encoding.UTF8
 
