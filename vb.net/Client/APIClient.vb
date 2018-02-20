@@ -4,10 +4,11 @@ Imports Newtonsoft.Json.Linq
 Imports RestSharp
 Imports System.Security.Cryptography
 
-' (C) Copyright Craig Blake 2018
+' (C) Copyright Craig Blake 2018 (cb58361@gmail.com)
 ' This is a VB.Net implementation of the GateIO php library
 ' I used http://www.jsonutils.com/ to generate the classes for data storage
 ' The project requires Newtonsoft JSON / RestSharp NuGet packages
+
 ' Contributions are welcome and encouraged...
 
 Public Class APIClient
