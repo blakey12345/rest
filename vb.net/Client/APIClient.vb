@@ -231,7 +231,33 @@ Public Class APIClient
         Return result
     End Function
 
+    Public Function get_order(order_number As Integer) As Order.DataStructure
+        Dim l As New List(Of KeyValuePair(Of String, String))
+        l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
+
+        Dim jsondata As String = authenticated_query("1/private/getOrder", l)
+
+        Dim result As Order.DataStructure = JsonConvert.DeserializeObject(Of Order.DataStructure)(jsondata)
+
+        Return result
+    End Function
+
+    Public Function cancel_order(order_number As Integer) As CancelOrder.DataStructure
+        Dim l As New List(Of KeyValuePair(Of String, String))
+        l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
+
+        Dim jsondata As String = authenticated_query("1/private/cancelOrder", l)
+
+        Dim result As CancelOrder.DataStructure = JsonConvert.DeserializeObject(Of CancelOrder.DataStructure)(jsondata)
+
+        Return result
+    End Function
+
     '#######################################################################################################################
+
+    'I'm currently unable to test these functions.
+    'If someone could test this and either update the code or send me the JSON these functions generate that would be brilliant
+    'cb58361@gmail.com
 
     Public Function get_order_trades(order_number As Integer)
         Dim l As New List(Of KeyValuePair(Of String, String))
@@ -244,35 +270,13 @@ Public Class APIClient
         Return jsondata
     End Function
 
-    Public Function withdraw(pair As String, amount As Double, address As String)
+    Public Function withdraw(currency As String, amount As Double, address As String)
         Dim l As New List(Of KeyValuePair(Of String, String))
-        l.Add(New KeyValuePair(Of String, String)("currencyPair", pair.ToUpper))
+        l.Add(New KeyValuePair(Of String, String)("currency", currency.ToUpper))
         l.Add(New KeyValuePair(Of String, String)("amount", amount))
         l.Add(New KeyValuePair(Of String, String)("address", address))
 
         Dim jsondata As String = authenticated_query("1/private/withdraw", l)
-
-        'Dim result As OrderBuySell.DataStructure = JsonConvert.DeserializeObject(Of OrderBuySell.DataStructure)(jsondata)
-
-        Return jsondata
-    End Function
-
-    Public Function get_order(order_number As Integer)
-        Dim l As New List(Of KeyValuePair(Of String, String))
-        l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
-
-        Dim jsondata As String = authenticated_query("1/private/getOrder", l)
-
-        'Dim result As OrderBuySell.DataStructure = JsonConvert.DeserializeObject(Of OrderBuySell.DataStructure)(jsondata)
-
-        Return jsondata
-    End Function
-
-    Public Function cancel_order(order_number As Integer)
-        Dim l As New List(Of KeyValuePair(Of String, String))
-        l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
-
-        Dim jsondata As String = authenticated_query("1/private/cancelOrder", l)
 
         'Dim result As OrderBuySell.DataStructure = JsonConvert.DeserializeObject(Of OrderBuySell.DataStructure)(jsondata)
 
@@ -290,10 +294,12 @@ Public Class APIClient
         Return jsondata
     End Function
 
-    Public Function get_my_trade_history(pair As String, order_number As Integer)
+    Public Function get_my_trade_history(pair As String, Optional order_number As Integer = -1)
         Dim l As New List(Of KeyValuePair(Of String, String))
         l.Add(New KeyValuePair(Of String, String)("currencyPair", pair.ToUpper))
-        l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
+        If order_number > -1 Then
+            l.Add(New KeyValuePair(Of String, String)("orderNumber", order_number))
+        End If
 
         Dim jsondata As String = authenticated_query("1/private/tradeHistory", l)
 
